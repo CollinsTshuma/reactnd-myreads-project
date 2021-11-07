@@ -4,6 +4,7 @@ import * as BooksAPI from "./BooksAPI";
 import Header from "./components/Header";
 import Shelves from "./components/Shelves";
 import Book from "./components/Book";
+import useInquire from "./hooks/useInquire";
 import "./App.css";
 
 const BooksApp = () => {
@@ -16,7 +17,7 @@ const BooksApp = () => {
 
   const [books, setBooks] = useState([]);
   const [query, setQuery] = useState("");
-  const [searchBooks, setSearchBooks] = useState([]);
+  const [searchBooks, setSearchBooks] = useInquire(query);
   const [combinedBooks, setCombinedBooks] = useState([]);
   const [mapOfIdToBooks, setMapOfIdToBooks] = useState(new Map());
 
@@ -28,6 +29,11 @@ const BooksApp = () => {
       }
       return m;
     });
+
+    if (!mapOfIdToBooks.has(book.id)) {
+      book.shelf = whereTo;
+      updatedBooks.push(book);
+    }
 
     setBooks(updatedBooks);
     BooksAPI.update(book, whereTo);
@@ -45,28 +51,6 @@ const BooksApp = () => {
       setMapOfIdToBooks(createMapOfBooks(data));
     });
   }, []);
-
-  useEffect(
-    () => {
-      let isActive = true;
-      if (query) {
-        BooksAPI.search(query).then((data) => {
-          if (data.error) {
-            searchBooks([]);
-          } else {
-            if (isActive) {
-              setSearchBooks(data);
-            }
-          }
-        });
-      }
-      return () => {
-        isActive = false;
-        setSearchBooks([]);
-      };
-    },
-    [query]
-  );
 
   useEffect(
     () => {
