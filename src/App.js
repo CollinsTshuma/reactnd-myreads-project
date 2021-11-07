@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import * as BooksAPI from "./BooksAPI";
-import Header from "./components/Header";
-import Shelves from "./components/Shelves";
-import Book from "./components/Book";
+import Header from "./components/header";
+import Shelves from "./components/bookshelves";
+import Book from "./components/book";
 import useInquire from "./hooks/useInquire";
 import "./App.css";
 
@@ -17,7 +17,7 @@ const BooksApp = () => {
 
   const [books, setBooks] = useState([]);
   const [query, setQuery] = useState("");
-  const [searchBooks, setSearchBooks] = useInquire(query);
+  const [searchBooks] = useInquire(query);
   const [combinedBooks, setCombinedBooks] = useState([]);
   const [mapOfIdToBooks, setMapOfIdToBooks] = useState(new Map());
 
