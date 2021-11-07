@@ -13,7 +13,7 @@ const Book = ({book, updateBookShelf}) => {
               width: 128,
               height: 193,
               backgroundImage:
-              `url(${book.url})`,
+              `url(${book.imageLinks.thumbnail})`,
             }}
           />
           <div className="book-shelf-changer">
@@ -29,7 +29,7 @@ const Book = ({book, updateBookShelf}) => {
           </div>
         </div>
         <div className="book-title">{book.title}</div>
-        <div className="book-authors">{book.author}</div>
+        <div className="book-authors">{book.publisher}</div>
       </div>
     )
 };
