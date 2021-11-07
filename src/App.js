@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import * as BooksAPI from "./BooksAPI";
 import Header from "./components/Header";
 import Shelves from "./components/Shelves";
@@ -12,7 +13,7 @@ const BooksApp = () => {
    * users can use the browser's back and forward buttons to navigate between
    * pages, as well as provide a good URL they can bookmark and share.
    */
-  const [showSearchPage, setShowSearchPage] = useState(false);
+
   const [books, setBooks] = useState([]);
   const [query, setQuery] = useState("");
   const [searchBooks, setSearchBooks] = useState([]);
@@ -83,17 +84,17 @@ const BooksApp = () => {
 
   return (
     <div className="app">
-      {showSearchPage ? (
-        <div className="search-books">
-          <div className="search-books-bar">
-            <button
-              className="close-search"
-              onClick={() => setShowSearchPage(false)}
-            >
-              Close
-            </button>
-            <div className="search-books-input-wrapper">
-              {/*
+      <Router>
+        <Switch>
+          {/*Search Page */}
+          <Route path={"/search"}>
+            <div className="search-books">
+              <div className="search-books-bar">
+                <Link to="/">
+                  <button className="close-search">Close</button>
+                </Link>
+                <div className="search-books-input-wrapper">
+                  {/*
                   NOTES: The search from BooksAPI is limited to a particular set of search terms.
                   You can find these search terms here:
                   https://github.com/udacity/reactnd-project-myreads-starter/blob/master/SEARCH_TERMS.md
@@ -101,35 +102,42 @@ const BooksApp = () => {
                   However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
                   you don't find a specific author or title. Every search is limited by search terms.
                 */}
-              <input
-                type="text"
-                placeholder="Search by title or author"
-                value={query}
-                onChange={(d) => setQuery(d.target.value)}
-              />
+                  <input
+                    type="text"
+                    placeholder="Search by title or author"
+                    value={query}
+                    onChange={(d) => setQuery(d.target.value)}
+                  />
+                </div>
+              </div>
+              <div className="search-books-results">
+                <ol className="books-grid">
+                  {combinedBooks.map((m) => (
+                    <li key={m.id}>
+                      <Book book={m} updateBookShelf={updateBookShelf} />
+                    </li>
+                  ))}
+                </ol>
+              </div>
             </div>
-          </div>
-          <div className="search-books-results">
-            <ol className="books-grid">
-              {combinedBooks.map((m) => (
-                <li key={m.id}>
-                  <Book book={m} updateBookShelf={updateBookShelf} />
-                </li>
-              ))}
-            </ol>
-          </div>
-        </div>
-      ) : (
-        <div className="list-books">
-          <Header />
-          <div className="list-books-content">
-            <Shelves books={books} updateBookShelf={updateBookShelf} />
-          </div>
-          <div className="open-search">
-            <button onClick={() => setShowSearchPage(true)}>Add a book</button>
-          </div>
-        </div>
-      )}
+          </Route>
+
+          {/*Main Page */}
+          <Route path={"/"}>
+            <div className="list-books">
+              <Header />
+              <div className="list-books-content">
+                <Shelves books={books} updateBookShelf={updateBookShelf} />
+              </div>
+              <div className="open-search">
+                <Link to="/search">
+                  <button>Add a book</button>
+                </Link>
+              </div>
+            </div>
+          </Route>
+        </Switch>
+      </Router>
     </div>
   );
 };

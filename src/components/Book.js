@@ -2,8 +2,6 @@ import React from "react";
 
 const Book = ({book, updateBookShelf}) => {
 
-  const changeBookShelf = () => {};
-
     return(
         <div className="book">
         <div className="book-top">
