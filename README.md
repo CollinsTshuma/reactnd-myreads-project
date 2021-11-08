@@ -14,7 +14,7 @@ Clone the repository, change directories, and use NPM to install the dependencie
 
 ```bash
 $ git clone https://github.com/CollinsTshuma/reactnd-myreads-project.git
-$ cd reactndt-myreads-projec
+$ cd reactnd-myreads-project
 $ npm install
 ```
 
