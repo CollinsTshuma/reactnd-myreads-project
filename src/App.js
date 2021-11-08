@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import * as BooksAPI from "./BooksAPI";
-import Header from "./components/header";
-import Shelves from "./components/bookshelves";
-import Book from "./components/book";
+import Header from "./components/Header";
+import Shelves from "./components/Shelves";
+import Book from "./components/Book";
 import useInquire from "./hooks/useInquire";
 import "./App.css";
 
